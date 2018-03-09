@@ -17,7 +17,7 @@ The simulation application must deal with Optical Network Simulator input and ou
 ### Building and installing
 
 #### Prereqs:
-- [MongoDB v3.0.15 or better](https://www.mongodb.com/download-center?jmp=nav#community) *Up and running!* I advise to install MongoDB as a service so it will automatically run once the operational system boots.
+- [MongoDB v3.0.15 or better](https://www.mongodb.com/download-center?jmp=nav#community) *Up and running!* I advise to install MongoDB as a service so it will automatically run once the operating system boots.
 - [NodeJS v8.10.0 LTS or better](https://nodejs.org/en/)
 - [Protocol](https://github.com/MatheusMS01/protocol). Extract the protocol directory and put it on the same level as the web_dispatcher directory
 
