@@ -19,7 +19,7 @@ The simulation application must deal with Optical Network Simulator input and ou
 #### Prereqs:
 - [MongoDB v3.0.15 or better](https://www.mongodb.com/download-center?jmp=nav#community) *Up and running!* I advise to install MongoDB as a service so it will automatically run once the operating system boots.
 - [NodeJS v8.10.0 LTS or better](https://nodejs.org/en/)
-- [Protocol](https://github.com/MatheusMS01/protocol). Extract the protocol directory and put it on the same level as the web_dispatcher directory
+- [Protocol](https://github.com/MatheusMS01/protocol). Extract the protocol directory and put it on the same level as the web_dispatcher directory (It *must* be named as Protocol)
 
 After downloading and extracting the source to a directory, on a terminal, run the following command:
 
@@ -32,4 +32,12 @@ After installing the web dispatcher, you can run it by executing the following c
 
     node app.js
 
-It will run a server on port 80 (you can access it on your browser: http://localhost).
+It will run a server on port 8080 (you can access it on your browser: http://localhost:8080).
+
+You can do your tweaks on your configuration file, located at *web_dispatcher/servers/config/config.json*
+
+### Properties
+- cpu.threshold: defines the cpu threashold that should be available on worker machines
+- memory.threshold: defines the memory threashold that should be available on worker machines
+- requestResourceInterval: interval where dispatcher demands all workers resources
+- dispatchInterval: interval where batch dispatch routine is done
