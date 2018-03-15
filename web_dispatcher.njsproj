@@ -40,6 +40,9 @@
     <Compile Include="database\models\user.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="database\models\worker.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="public\js\bootstrap-confirmation.min.js" />
     <Compile Include="public\js\bootstrap.js" />
     <Compile Include="public\js\bootstrap.min.js" />
@@ -47,8 +50,26 @@
     <Compile Include="public\js\sb-admin-2.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="servers\dispatcher\connection_manager.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="servers\dispatcher\dispatcher.js" />
     <Compile Include="servers\dispatcher\communication.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="servers\dispatcher\dwp_handler\manager.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="servers\dispatcher\dwp_handler\handler\report_handler.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="servers\dispatcher\dwp_handler\handler\perform_task_response_handler.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="servers\dispatcher\dwp_handler\handler\task_result_handler.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="servers\dispatcher\dwp_handler\handler\terminate_task_response_handler.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="servers\dispatcher\simulation_handler.js">
@@ -58,17 +79,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="servers\shared\configuration.js" />
+    <Compile Include="servers\shared\exportation.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="servers\shared\interface_manager.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="servers\shared\log.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="servers\shared\mailer.js" />
     <Compile Include="servers\shared\simulation_utils.js" />
-    <Compile Include="servers\shared\worker_manager.js" />
     <Compile Include="servers\web\apis\log.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="servers\web\apis\simulation_group.js" />
-    <Compile Include="servers\web\apis\simulation_instance.js">
+    <Compile Include="servers\web\apis\worker.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="servers\web\router.js">
@@ -126,6 +152,8 @@
     <Folder Include="servers\" />
     <Folder Include="servers\config\" />
     <Folder Include="servers\dispatcher\" />
+    <Folder Include="servers\dispatcher\dwp_handler\" />
+    <Folder Include="servers\dispatcher\dwp_handler\handler\" />
     <Folder Include="servers\shared\" />
     <Folder Include="servers\web\" />
     <Folder Include="servers\web\apis\" />

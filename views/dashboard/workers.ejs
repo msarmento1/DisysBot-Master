@@ -28,6 +28,8 @@
 
    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
    <script>
+      var enableClick = true
+
       google.charts.load( 'current', { 'packages': ['gauge'] } );
 
       var prev_handler = window.onload;
@@ -90,6 +92,7 @@
 
                      var runningInstances = document.createElement( 'span' );
                      runningInstances.className = 'badge';
+                     console.log(workers[idx])
                      runningInstances.innerHTML = workers[idx].runningInstances;
                      runningInstances.setAttribute( 'data-toggle', 'tooltip' );
                      runningInstances.setAttribute( 'data-placement', 'top' );
@@ -120,7 +123,15 @@
                      pauseBtn.type = 'button';
                      pauseBtn.className = 'btn btn-secondary non-clickable';
                      pauseBtn.onclick = function () {
-                        $.post( "/api/simulation_instance/pause", { address: address } );
+                       if (enableClick) {
+                         $.post("/api/worker/pause", { address: address });
+
+                         enableClick = false
+
+                         setTimeout(function () {
+                           enableClick = true
+                         }, 1000)
+                       }
                      };
                      //if ( workers[idx].status === undefined || workers[idx].status === 0 ) {
                      //   pauseBtn.className += ' disabled';
@@ -135,7 +146,15 @@
                      resumeBtn.className = 'btn btn-secondary non-clickable';
                      resumeBtn.innerHTML = '<span class=\'glyphicon glyphicon-play non-clickable\'></span><h6 class="non-clickable">RESUME</h6>';
                      resumeBtn.onclick = function () {
-                        $.post( "/api/simulation_instance/resume", { address: address } );
+                       if (enableClick) {
+                         $.post("/api/worker/resume", { address: address });
+
+                         enableClick = false
+
+                         setTimeout(function () {
+                           enableClick = true
+                         }, 1000)
+                       }
                      };
                      //if ( workers[idx].status === undefined || workers[idx].status === 1 ) {
                      //   console.log( workers[idx].running)
@@ -150,7 +169,15 @@
                      stopBtn.className = 'btn btn-secondary non-clickable';
                      stopBtn.innerHTML = '<span class=\'glyphicon glyphicon-stop non-clickable\'></span><h6 class="non-clickable">STOP</h6>';
                      stopBtn.onclick = function () {
-                        $.post( "/api/simulation_instance/stop", { address: address } );
+                       if (enableClick) {
+                         $.post("/api/worker/stop", { address: address });
+
+                         enableClick = false
+
+                         setTimeout(function () {
+                           enableClick = true
+                         }, 1000)
+                       }
                      };
 
                      //stopBtn.setAttribute( 'data-toggle', 'confirmation' );
@@ -205,8 +232,8 @@
 
                   var data = google.visualization.arrayToDataTable( [
                      ['Label', 'Value'],
-                     ['Memory', ( 1 - workers[idx].lastResource.memory ) * 100],
-                     ['CPU', ( 1 - workers[idx].lastResource.cpu ) * 100]
+                     ['Memory', ( 1 - workers[idx].resource.memory ) * 100],
+                     ['CPU', (1 - workers[idx].resource.cpu ) * 100]
                   ] );
                   var options = {
                      width: 400, height: 120,
