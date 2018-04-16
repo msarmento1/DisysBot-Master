@@ -27,6 +27,7 @@
                      <tr>
                         <th style='width:20%'>Simulation Group</th>
                         <th style='width:10%'>Seed Amount</th>
+                        <th style='width:10%'>Sanity</th>
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th></th>
@@ -112,6 +113,19 @@
             var tdSeedAmount = document.createElement( 'td' );
             tdSeedAmount.innerHTML = simulationGroups[idx].seedAmount;
 
+            var tdSanity = document.createElement( 'td' );
+            var labelSanity = document.createElement( 'span' );
+
+            const errors = simulationGroups[idx].sanity.errors;
+            const total = simulationGroups[idx].sanity.total;
+            const perc = 100 * (total - errors) / total;
+            if (perc < 25) labelSanity.style = "color: red; font-weight: bold";
+            else if (perc < 70) labelSanity.style = "color: #DAA520; font-weight: bold";
+            else labelSanity.style = "color: green; font-weight: bold";
+            labelSanity.innerHTML = `${perc.toFixed(2)}% (${total-errors}/${total})`;
+
+            tdSanity.appendChild(labelSanity);
+
             var tdStartTime = document.createElement( 'td' );
             tdStartTime.innerHTML = new Date( simulationGroups[idx].startTime );
 
@@ -143,6 +157,7 @@
 
             tr.appendChild( tdName );
             tr.appendChild( tdSeedAmount );
+            tr.appendChild( tdSanity );
             tr.appendChild( tdStartTime );
             tr.appendChild( tdEndTime );
             tr.appendChild( tdExport );
