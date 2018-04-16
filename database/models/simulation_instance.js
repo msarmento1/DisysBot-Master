@@ -8,6 +8,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const SimulationGroup = rootRequire('database/models/simulation_group')
+const Simulation = rootRequire('database/models/simulation')
+const SanitySchema = require('./sanity');
 
 const State = {
   Pending: 0,
@@ -42,6 +44,7 @@ const simulationInstanceSchema = Schema({
   result: {
     type: String
   },
+  sanity: SanitySchema,
   startTime: {
     type: Date
   },
@@ -68,7 +71,7 @@ simulationInstanceSchema.statics.countActive = function (simulationId) {
 simulationInstanceSchema.statics.updateToDefaultState = function (simulationInstanceId) {
   const simulationInstancePopulate = {
     path: '_simulation',
-    select: '_simulationGroup',
+      select: '_simulationGroup',
     populate: { path: '_simulationGroup' }
   }
 
@@ -77,7 +80,6 @@ simulationInstanceSchema.statics.updateToDefaultState = function (simulationInst
     .populate(simulationInstancePopulate)
     .then(function (simulationInstance) {
       const simulationGroupState = simulationInstance._simulation._simulationGroup.state
-
       simulationInstance.worker = undefined
       simulationInstance.startTime = undefined
 
@@ -90,6 +92,20 @@ simulationInstanceSchema.statics.updateToDefaultState = function (simulationInst
       return simulationInstance.save()
     })
 }
+
+simulationInstanceSchema.statics.countFinishedInstance = (simulationInstanceId, error = false) => {
+  const data = {
+    $inc: {
+      "sanity.errors": (error ? 1 : 0),
+      "sanity.total": 1
+    }
+  };
+  return model
+    .findByIdAndUpdate(simulationInstanceId, data)
+    .then((simulationInstance) => {
+      Simulation.countFinishedInstance(simulationInstance._simulation, error);
+    });
+};
 
 simulationInstanceSchema.methods.isPending = function () {
   return this.state === State.Pending

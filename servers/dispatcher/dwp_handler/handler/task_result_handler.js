@@ -29,13 +29,14 @@ module.exports.execute = function (pdu, worker) {
 
     SimulationInstance
       .findByIdAndUpdate(pdu.task.id, simulationInstanceUpdate, { new: true })
-      .then(function (simulationInstance) {
+      .then(() => {
         log.info('Worker ' + worker.address + ':' + worker.port + ' has finished simulation instance ' + simulationInstance._id)
-
         return cascadeConclusion(simulationInstance._simulation)
-      }).then(function () {
+      }).then(() => {
+        return SimulationInstance.countFinishedInstance(pdu.task.id, true);
+      }).then(() => {
         return worker.updateRunningInstances()
-      }).catch(function (e) {
+      }).catch((e) => {
         log.fatal(e)
       })
   } else {
@@ -44,9 +45,11 @@ module.exports.execute = function (pdu, worker) {
 
     SimulationInstance
       .updateToDefaultState(pdu.task.id)
-      .then(function () {
+      .then(() => {
+        return SimulationInstance.countFinishedInstance(pdu.task.id, true);
+      }).then(() => {
         return worker.updateRunningInstances()
-      }).catch(function (e) {
+      }).catch((e) => {
         log.fatal(e)
       })
   }

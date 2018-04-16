@@ -7,6 +7,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+const SanitySchema = require('./sanity');
+
 const State = {
   Executing: 0,
   Finished: 1
@@ -49,6 +51,7 @@ const simulationGroupSchema = Schema({
     type: Number,
     default: State.Executing
   },
+  sanity: SanitySchema,
   startTime: {
     type: Date,
     default: Date.now
@@ -64,4 +67,18 @@ const simulationGroupSchema = Schema({
 
 simulationGroupSchema.statics.State = State
 
-module.exports = mongoose.model('SimulationGroup', simulationGroupSchema)
+simulationGroupSchema.statics.countFinishedInstance = (simulationGroupId, error = false) => {
+  const data = {
+    $inc: {
+      "sanity.errors": (error ? 1 : 0),
+      "sanity.total": 1
+    }
+  };
+  return model
+    .findByIdAndUpdate(simulationGroupId, data)
+    .exec();
+};
+
+const model = mongoose.model('SimulationGroup', simulationGroupSchema);
+
+module.exports = model;
