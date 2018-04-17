@@ -165,7 +165,8 @@
 
             const errors = simulationGroups[idx].sanity.errors;
             const total = simulationGroups[idx].sanity.total;
-            const perc = 100 * (total - errors) / total;
+            let perc = 100 * (total - errors) / total;
+            if (total == 0) perc = 100;
             if (perc < 25) labelSanity.style = "color: red; font-weight: bold";
             else if (perc < 70) labelSanity.style = "color: #DAA520; font-weight: bold";
             else labelSanity.style = "color: green; font-weight: bold";

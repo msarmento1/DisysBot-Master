@@ -29,11 +29,11 @@ module.exports.execute = function (pdu, worker) {
 
     SimulationInstance
       .findByIdAndUpdate(pdu.task.id, simulationInstanceUpdate, { new: true })
-      .then(() => {
+      .then((simulationInstance) => {
         log.info('Worker ' + worker.address + ':' + worker.port + ' has finished simulation instance ' + simulationInstance._id)
         return cascadeConclusion(simulationInstance._simulation)
       }).then(() => {
-        return SimulationInstance.countFinishedInstance(pdu.task.id, true);
+        return SimulationInstance.countFinishedInstance(pdu.task.id, false);
       }).then(() => {
         return worker.updateRunningInstances()
       }).catch((e) => {
