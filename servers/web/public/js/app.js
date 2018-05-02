@@ -40,6 +40,11 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: 'finishedTaskSetCtrl',
       auth: true
     })
+    .when('/task/:id', {
+      templateUrl: 'views/dashboard/task.html',
+      controller: 'taskDetailsCtrl',
+      auth: true
+    })
     .when('/add', {
       templateUrl: 'views/dashboard/add.html',
       controller: 'addCtrl',

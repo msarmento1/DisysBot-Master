@@ -23,6 +23,10 @@
 //! DEALINGS IN THE SOFTWARE.
 //!
 
+app.controller('taskDetailsCtrl', function ($scope, $http, $interval, $rootScope) {
+  
+})
+
 app.controller('groupCtrl', function ($scope, $http, $interval, $rootScope) {
   $scope.activeCount = 0
   $scope.finishedCount = 0
