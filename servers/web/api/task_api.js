@@ -2,6 +2,7 @@
 const taskUtils = webServerRequire('utils/task_utils')
 
 const TaskSet = databaseRequire('models/task_set')
+const Task = databaseRequire('models/task')
 
 module.exports = function (app) {
   app.get('/api/task/get_executing', (req, res) => {
@@ -11,6 +12,19 @@ module.exports = function (app) {
       .find(taskSetFilter)
       .then(taskSet => {
         res.send(taskSet)
+      })
+      .catch(e => {
+        res.status(412).send({ reason: e })
+      })
+  })
+
+  app.get('/api/task/get_results/:id', (req, res) => {
+    const taskId = req.params.id
+    const taskFilter = { state: Task.State.FINISHED, _taskSet: taskId }
+    Task
+      .find(taskFilter)
+      .then(tasks => {
+        res.send(tasks)
       })
       .catch(e => {
         res.status(412).send({ reason: e })

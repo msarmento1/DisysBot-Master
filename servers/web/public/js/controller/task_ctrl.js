@@ -23,9 +23,40 @@
 //! DEALINGS IN THE SOFTWARE.
 //!
 
-app.controller('taskDetailsCtrl', function ($scope, $http, $interval, $rootScope) {
-  
+app.controller('taskDetailsCtrl', function ($scope, $http, $interval, $rootScope, $routeParams) {
+  $rootScope.sidebar = true
+  let taskId = $routeParams.id
+  var promise
+
+  $scope.start = function () {
+    $scope.stop();
+
+    getAllTaskResults($scope, $http, taskId)
+
+    promise = $interval(function () {
+      getAllTaskResults($scope, $http, taskId)
+    }, 1500);
+  };
+
+  $scope.stop = function () {
+    $interval.cancel(promise);
+  };
+
+  $scope.start();
+
+  $scope.$on('$destroy', function () {
+    $scope.stop();
+  });
 })
+
+function getAllTaskResults($scope, $http, taskId) {
+  $http
+    .get(`/api/task/get_results/${taskId}`)
+    .then(function (response) {
+      $scope.tasks = response.data
+    })
+}
+
 
 app.controller('groupCtrl', function ($scope, $http, $interval, $rootScope) {
   $scope.activeCount = 0
